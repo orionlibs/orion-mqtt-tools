@@ -13,9 +13,24 @@ public class MQTTAsynchronousPublisherClient
     private Mqtt5AsyncClient client;
 
 
+    public MQTTAsynchronousPublisherClient(String brokerUrl, int port, String clientId)
+    {
+        this.client = Mqtt5Client.builder()
+                        .identifier(clientId)
+                        .serverHost(brokerUrl)
+                        .serverPort(port)
+                        .buildAsync();
+        client.connect()
+                        .exceptionally(throwable -> {
+                            System.out.println("Something went wrong publisher!");
+                            return null;
+                        });
+    }
+
+
     public MQTTAsynchronousPublisherClient(String brokerUrl, int port, String topic, String payload, String clientId)
     {
-        Mqtt5AsyncClient client = Mqtt5Client.builder()
+        this.client = Mqtt5Client.builder()
                         .identifier(clientId)
                         .serverHost(brokerUrl)
                         .serverPort(port)

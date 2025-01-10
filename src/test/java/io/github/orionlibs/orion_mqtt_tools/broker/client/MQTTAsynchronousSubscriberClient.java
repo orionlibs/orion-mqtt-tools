@@ -10,16 +10,19 @@ import com.hivemq.client.mqtt.mqtt5.Mqtt5Client;
 public class MQTTAsynchronousSubscriberClient
 {
     private Mqtt5AsyncClient client;
+    private int numberOfMessagesReceived;
 
 
     public MQTTAsynchronousSubscriberClient(String brokerUrl, int port, String topic, MqttQos qualityOfServiceLevel, String clientId)
     {
-        Mqtt5AsyncClient client = Mqtt5Client.builder()
+        numberOfMessagesReceived = 0;
+        this.client = Mqtt5Client.builder()
                         .identifier(clientId)
                         .serverHost(brokerUrl)
                         .serverPort(port)
                         .buildAsync();
         client.publishes(MqttGlobalPublishFilter.SUBSCRIBED, publish -> {
+            numberOfMessagesReceived++;
             System.out.println("Received payload: " + new String(publish.getPayloadAsBytes(), UTF_8));
         });
         client.connect()
@@ -37,5 +40,11 @@ public class MQTTAsynchronousSubscriberClient
     public Mqtt5AsyncClient getClient()
     {
         return client;
+    }
+
+
+    public int getNumberOfMessagesReceived()
+    {
+        return numberOfMessagesReceived;
     }
 }
