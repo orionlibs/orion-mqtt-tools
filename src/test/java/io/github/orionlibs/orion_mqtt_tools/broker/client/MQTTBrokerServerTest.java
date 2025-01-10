@@ -1,6 +1,5 @@
 package io.github.orionlibs.orion_mqtt_tools.broker.client;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.hivemq.client.mqtt.datatypes.MqttQos;
@@ -84,18 +83,18 @@ public class MQTTBrokerServerTest extends ATest
 
     private void startPublisherClient(String topic, String payload, String clientId)
     {
-        this.testPublisherClient = new ConnectorFactory().newAsynchronousMQTTConnectorForPublisher("0.0.0.0", 1883, topic, payload, clientId);
+        this.testPublisherClient = new ConnectorFactory().newAsynchronousMQTTConnectorForPublisher("0.0.0.0", 1883, topic, payload, clientId).getClient();
     }
 
 
     private void startSubscriberClient(String topic, MqttQos qualityOfServiceLevel, String clientId)
     {
-        this.testSubscriberClient = new ConnectorFactory().newAsynchronousMQTTConnectorForSubscriber("0.0.0.0", 1883, topic, qualityOfServiceLevel, clientId);
+        this.testSubscriberClient = new ConnectorFactory().newAsynchronousMQTTConnectorForSubscriber("0.0.0.0", 1883, topic, qualityOfServiceLevel, clientId).getClient();
     }
 
 
     private void startUnsubscriberClient(String topic, String clientId)
     {
-        this.testUnsubscriberClient = new ConnectorFactory().newAsynchronousMQTTConnectorForUnsubscriber("0.0.0.0", 1883, topic, clientId);
+        this.testUnsubscriberClient = new ConnectorFactory().newAsynchronousMQTTConnectorForUnsubscriber("0.0.0.0", 1883, topic, clientId).getClient();
     }
 }
