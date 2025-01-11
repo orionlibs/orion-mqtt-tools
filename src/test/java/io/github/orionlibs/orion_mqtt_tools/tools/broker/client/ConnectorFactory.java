@@ -22,6 +22,12 @@ public class ConnectorFactory
     }
 
 
+    public MQTTAsynchronousPublisherClientWithCredentials newAsynchronousMQTTConnectorForPublisherWithCredentials(String brokerUrl, int port, String clientId, String username, String password)
+    {
+        return new MQTTAsynchronousPublisherClientWithCredentials(brokerUrl, port, clientId, username, password);
+    }
+
+
     public MQTTAsynchronousSubscriberClient newAsynchronousMQTTConnectorForSubscriber(String brokerUrl, int port, String topic, MqttQos qualityOfServiceLevel, String clientId)
     {
         return new MQTTAsynchronousSubscriberClient(brokerUrl, port, topic, qualityOfServiceLevel, clientId);

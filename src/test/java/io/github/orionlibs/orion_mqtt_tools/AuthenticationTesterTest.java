@@ -20,6 +20,7 @@ public class AuthenticationTesterTest extends ATest
     private MQTTBrokerServer brokerServer;
     private String clientID = "testClientId";
     private AuthenticationTester authenticationTester;
+    private HiveMQClientAdapter clientAdapter;
 
 
     @BeforeEach
@@ -30,7 +31,8 @@ public class AuthenticationTesterTest extends ATest
         brokerServer = new MQTTBrokerServer();
         brokerServer.startBroker(true, false);
         Utils.nonblockingDelay(3);
-        authenticationTester = new AuthenticationTester(new HiveMQClientAdapter());
+        clientAdapter = new HiveMQClientAdapter();
+        authenticationTester = new AuthenticationTester(clientAdapter);
     }
 
 
@@ -38,6 +40,7 @@ public class AuthenticationTesterTest extends ATest
     void teardown()
     {
         MQTTAuthenticatorProvider.removeLogHandler(listLogHandler);
+        clientAdapter.disconnect();
         brokerServer.stopBroker();
     }
 

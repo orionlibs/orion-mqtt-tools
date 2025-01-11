@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.orionlibs.orion_mqtt_tools.tools.broker.client.HiveMQClientAdapter;
-import io.github.orionlibs.orion_mqtt_tools.tools.broker.server.MQTTAuthenticatorProvider;
+import io.github.orionlibs.orion_mqtt_tools.tools.broker.server.MQTTAuthorizationProvider2;
 import io.github.orionlibs.orion_mqtt_tools.tools.broker.server.MQTTBrokerServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,24 +20,27 @@ public class AuthorizationTesterTest extends ATest
     private MQTTBrokerServer brokerServer;
     private String clientID = "testClientId";
     private AuthorizationTester authorizationTester;
+    private HiveMQClientAdapter clientAdapter;
 
 
     @BeforeEach
     void setUp() throws Exception
     {
         listLogHandler = new ListLogHandler();
-        MQTTAuthenticatorProvider.addLogHandler(listLogHandler);
+        MQTTAuthorizationProvider2.addLogHandler(listLogHandler);
         brokerServer = new MQTTBrokerServer();
         brokerServer.startBroker(true, true);
         Utils.nonblockingDelay(3);
-        authorizationTester = new AuthorizationTester(new HiveMQClientAdapter());
+        clientAdapter = new HiveMQClientAdapter("0.0.0.0", 1883, clientID, "admin", "password");
+        authorizationTester = new AuthorizationTester(clientAdapter);
     }
 
 
     @AfterEach
     void teardown()
     {
-        MQTTAuthenticatorProvider.removeLogHandler(listLogHandler);
+        MQTTAuthorizationProvider2.removeLogHandler(listLogHandler);
+        clientAdapter.disconnect();
         brokerServer.stopBroker();
     }
 
@@ -45,19 +48,19 @@ public class AuthorizationTesterTest extends ATest
     @Test
     void testPublishClientAuthorization() throws Exception
     {
-        authorizationTester.testPublishAuthorizationWithDelay("0.0.0.0", 1883, clientID, "admin", "password", "admin/topic", "somePayload1".getBytes(), 2);
+        Utils.nonblockingDelay(2);
+        authorizationTester.testPublishAuthorizationWithDelay("admin/topic", "somePayload1".getBytes(), 2);
         assertEquals(0, listLogHandler.getLogRecords().size());
-        authorizationTester.testPublishAuthorizationWithDelay("0.0.0.0", 1883, clientID, "admin", "password", "forbidden/topic", "somePayload1".getBytes(), 2);
+        authorizationTester.testPublishAuthorizationWithDelay("forbidden/topic", "somePayload1".getBytes(), 2);
         assertEquals(1, listLogHandler.getLogRecords().size());
         assertTrue(listLogHandler.getLogRecords()
                         .stream()
                         .anyMatch(record -> record.getMessage().contains("forbidden")));
-        /*authorizationTester.testPublishAuthorizationWithDelay("0.0.0.0", 1883, clientID, "admin", "password", "test/topic1", "somePayload1".getBytes(), 2);
+        MQTTCMessageAdapter messageAdapter = new MQTTCMessageAdapter();
+        authorizationTester.testSubscribeAuthorizationWithDelay("admin/topic", messageAdapter, 2);
         assertEquals(1, listLogHandler.getLogRecords().size());
         assertTrue(listLogHandler.getLogRecords()
                         .stream()
-                        .anyMatch(record -> record.getMessage().contains("NOT_AUTHORIZED_0")));
-        authorizationTester.testPublishAuthorizationWithDelay("0.0.0.0", 1883, clientID, "admin", "password", "test/topic1", "somePayload1".getBytes(), 2);
-        assertEquals(2, listLogHandler.getLogRecords().size());*/
+                        .anyMatch(record -> record.getMessage().contains("forbidden")));
     }
 }

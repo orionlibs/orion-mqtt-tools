@@ -51,12 +51,14 @@ public class MQTTSubscriberAuthorizationProvider implements AuthorizerProvider, 
         //disallow a shared subscription
         if(subscriptionAuthorizerInput.getSubscription().getTopicFilter().startsWith("$shared"))
         {
+            log.severe("$shared");
             subscriptionAuthorizerOutput.failAuthorization();
             return;
         }
         final UserProperties userProperties = subscriptionAuthorizerInput.getUserProperties();
         if(userProperties.getFirst("notallowed").isPresent())
         {
+            log.severe("notallowed");
             subscriptionAuthorizerOutput.disconnectClient(DisconnectReasonCode.ADMINISTRATIVE_ACTION, "User property not allowed");
             return;
         }

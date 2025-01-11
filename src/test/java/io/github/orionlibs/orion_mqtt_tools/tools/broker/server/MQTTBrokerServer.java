@@ -28,6 +28,7 @@ public class MQTTBrokerServer
         {
             this.embeddedHiveMQ = EmbeddedHiveMQ.builder()
                             .withConfigurationFolder(Paths.get(this.getClass().getResource("/io/github/orionlibs/orion_mqtt_tools/configuration").toURI()))
+                            //.withExtensionsFolder(Paths.get(this.getClass().getResource("/io/github/orionlibs/orion_mqtt_tools/configuration").toURI()))
                             .withEmbeddedExtension(EmbeddedExtension.builder()
                                             .withId("interceptors")
                                             .withName("interceptors")
@@ -63,7 +64,7 @@ public class MQTTBrokerServer
                                                 @Override
                                                 public void extensionStop(@NotNull ExtensionStopInput extensionStopInput, @NotNull ExtensionStopOutput extensionStopOutput)
                                                 {
-                                                    System.out.println("extension stopped");
+                                                    System.out.println("interceptors extension stopped");
                                                 }
                                             })
                                             .build()).build();
