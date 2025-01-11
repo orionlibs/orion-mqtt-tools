@@ -48,21 +48,20 @@ public class AuthorizationTesterTest extends ATest
     @Test
     void testPublishClientAuthorization() throws Exception
     {
-        Utils.nonblockingDelay(2);
-        authorizationTester.testPublishAuthorizationWithDelay("admin/topic", "somePayload1".getBytes(), 2);
-        assertEquals(0, listLogHandler.getLogRecords().size());
-        authorizationTester.testPublishAuthorizationWithDelay("forbidden/topic", "somePayload1".getBytes(), 2);
-        assertEquals(1, listLogHandler.getLogRecords().size());
-        assertTrue(listLogHandler.getLogRecords()
-                        .stream()
-                        .anyMatch(record -> record.getMessage().contains("forbidden")));
         MQTTCMessageAdapter messageAdapter = new MQTTCMessageAdapter();
         authorizationTester.testSubscribeAuthorizationWithDelay("admin/topic", messageAdapter, 2);
-        assertEquals(1, listLogHandler.getLogRecords().size());
+        assertEquals(0, listLogHandler.getLogRecords().size());
         authorizationTester.testSubscribeAuthorizationWithDelay("$shared/topic", messageAdapter, 2);
-        assertEquals(2, listLogHandler.getLogRecords().size());
+        assertEquals(1, listLogHandler.getLogRecords().size());
         assertTrue(listLogHandler.getLogRecords()
                         .stream()
                         .anyMatch(record -> record.getMessage().contains("$shared")));
+        authorizationTester.testPublishAuthorizationWithDelay("forbidden/topic", "somePayload1".getBytes(), 2);
+        assertEquals(2, listLogHandler.getLogRecords().size());
+        assertTrue(listLogHandler.getLogRecords()
+                        .stream()
+                        .anyMatch(record -> record.getMessage().contains("forbidden")));
+        authorizationTester.testPublishAuthorizationWithDelay("admin/topic", "somePayload1".getBytes(), 2);
+        assertEquals(2, listLogHandler.getLogRecords().size());
     }
 }
