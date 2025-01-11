@@ -19,7 +19,6 @@ public class MQTTAsynchronousUnsubscriberClient
                         .thenCompose(connAck -> {
                             System.out.println("Successfully connected unsubscriber!");
                             return client.unsubscribeWith().topicFilter(topic).send();
-                        }).thenRun(() -> {
                         }).exceptionally(throwable -> {
                             System.out.println("Something went wrong unsubscriber: " + throwable.getMessage());
                             return null;

@@ -29,7 +29,6 @@ public class MQTTAsynchronousSubscriberClient
                         .thenCompose(connAck -> {
                             System.out.println("Successfully connected subscriber!");
                             return client.subscribeWith().topicFilter(topic).qos(qualityOfServiceLevel).send();
-                        }).thenRun(() -> {
                         }).exceptionally(throwable -> {
                             System.out.println("Something went wrong subscriber: " + throwable.getMessage());
                             return null;
