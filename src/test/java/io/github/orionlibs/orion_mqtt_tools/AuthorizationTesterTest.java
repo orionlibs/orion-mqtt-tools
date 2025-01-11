@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.orionlibs.orion_mqtt_tools.tools.broker.client.HiveMQClientAdapter;
-import io.github.orionlibs.orion_mqtt_tools.tools.broker.server.MQTTAuthorizationProvider2;
+import io.github.orionlibs.orion_mqtt_tools.tools.broker.server.MQTTAuthorizationProvider;
 import io.github.orionlibs.orion_mqtt_tools.tools.broker.server.MQTTBrokerServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ public class AuthorizationTesterTest extends ATest
     void setUp() throws Exception
     {
         listLogHandler = new ListLogHandler();
-        MQTTAuthorizationProvider2.addLogHandler(listLogHandler);
+        MQTTAuthorizationProvider.addLogHandler(listLogHandler);
         brokerServer = new MQTTBrokerServer();
         brokerServer.startBroker(true, true);
         Utils.nonblockingDelay(3);
@@ -39,7 +39,7 @@ public class AuthorizationTesterTest extends ATest
     @AfterEach
     void teardown()
     {
-        MQTTAuthorizationProvider2.removeLogHandler(listLogHandler);
+        MQTTAuthorizationProvider.removeLogHandler(listLogHandler);
         clientAdapter.disconnect();
         brokerServer.stopBroker();
     }
@@ -59,8 +59,10 @@ public class AuthorizationTesterTest extends ATest
         MQTTCMessageAdapter messageAdapter = new MQTTCMessageAdapter();
         authorizationTester.testSubscribeAuthorizationWithDelay("admin/topic", messageAdapter, 2);
         assertEquals(1, listLogHandler.getLogRecords().size());
+        authorizationTester.testSubscribeAuthorizationWithDelay("$shared/topic", messageAdapter, 2);
+        assertEquals(2, listLogHandler.getLogRecords().size());
         assertTrue(listLogHandler.getLogRecords()
                         .stream()
-                        .anyMatch(record -> record.getMessage().contains("forbidden")));
+                        .anyMatch(record -> record.getMessage().contains("$shared")));
     }
 }

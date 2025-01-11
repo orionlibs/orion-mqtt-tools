@@ -14,7 +14,7 @@ public class MQTTSubscribeInterceptor implements SubscribeInboundInterceptor
         subscribeInboundInput.getSubscribePacket()
                         .getSubscriptions()
                         .forEach(subscription -> {
-                            System.out.println("subscribed");
+                            System.out.println(clientId + " subscribed");
                         });
         // Optional: Reject subscriptions
         // subscribeInboundOutput.preventSubscription();
