@@ -31,7 +31,7 @@ public class MQTTAsynchronousSubscriberClient
                             return client.subscribeWith().topicFilter(topic).qos(qualityOfServiceLevel).send();
                         }).thenRun(() -> {
                         }).exceptionally(throwable -> {
-                            System.out.println("Something went wrong subscriber!");
+                            System.out.println("Something went wrong subscriber: " + throwable.getMessage());
                             return null;
                         });
     }

@@ -37,7 +37,7 @@ public class MQTTClientDelaySimulatorTest extends ATest
     void setUp() throws ExecutionException, InterruptedException, URISyntaxException
     {
         brokerServer = new MQTTBrokerServer();
-        brokerServer.startBroker();
+        brokerServer.startBroker(false);
         Utils.nonblockingDelay(3);
         resiliencyConfig = new MessageResiliencyConfiguration(
                         1.0d,   //100% probability for delay

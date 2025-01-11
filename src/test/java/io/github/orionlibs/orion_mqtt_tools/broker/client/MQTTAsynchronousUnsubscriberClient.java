@@ -21,7 +21,7 @@ public class MQTTAsynchronousUnsubscriberClient
                             return client.unsubscribeWith().topicFilter(topic).send();
                         }).thenRun(() -> {
                         }).exceptionally(throwable -> {
-                            System.out.println("Something went wrong unsubscriber!");
+                            System.out.println("Something went wrong unsubscriber: " + throwable.getMessage());
                             return null;
                         });
     }

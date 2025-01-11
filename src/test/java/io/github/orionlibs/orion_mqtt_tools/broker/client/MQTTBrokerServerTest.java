@@ -30,7 +30,7 @@ public class MQTTBrokerServerTest extends ATest
     void setUp() throws ExecutionException, InterruptedException, URISyntaxException
     {
         brokerServer = new MQTTBrokerServer();
-        brokerServer.startBroker();
+        brokerServer.startBroker(false);
         Utils.nonblockingDelay(3);
     }
 
