@@ -1,4 +1,4 @@
-package io.github.orionlibs.orion_mqtt_tools.broker;
+package io.github.orionlibs.orion_mqtt_tools;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;

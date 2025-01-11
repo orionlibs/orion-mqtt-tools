@@ -1,4 +1,4 @@
-package io.github.orionlibs.orion_mqtt_tools.broker;
+package io.github.orionlibs.orion_mqtt_tools;
 
 public class MessageResiliencyConfiguration
 {
