@@ -1,14 +1,17 @@
 package io.github.orionlibs.orion_mqtt_tools.tools.broker.server;
 
+import com.hivemq.extension.sdk.api.auth.Authorizer;
 import com.hivemq.extension.sdk.api.auth.SubscriptionAuthorizer;
+import com.hivemq.extension.sdk.api.auth.parameter.AuthorizerProviderInput;
 import com.hivemq.extension.sdk.api.auth.parameter.SubscriptionAuthorizerInput;
 import com.hivemq.extension.sdk.api.auth.parameter.SubscriptionAuthorizerOutput;
 import com.hivemq.extension.sdk.api.packets.disconnect.DisconnectReasonCode;
 import com.hivemq.extension.sdk.api.packets.general.UserProperties;
+import com.hivemq.extension.sdk.api.services.auth.provider.AuthorizerProvider;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 
-public class MQTTSubscriberAuthorizationProvider implements SubscriptionAuthorizer
+public class MQTTSubscriberAuthorizationProvider implements AuthorizerProvider, SubscriptionAuthorizer
 {
     private final static Logger log;
 
@@ -26,6 +29,13 @@ public class MQTTSubscriberAuthorizationProvider implements SubscriptionAuthoriz
     public static void removeLogHandler(Handler handler)
     {
         log.removeHandler(handler);
+    }
+
+
+    @Override
+    public Authorizer getAuthorizer(AuthorizerProviderInput authorizerProviderInput)
+    {
+        return this;
     }
 
 
