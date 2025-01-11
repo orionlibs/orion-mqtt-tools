@@ -1,4 +1,4 @@
-package io.github.orionlibs.orion_mqtt_tools.broker;
+package io.github.orionlibs.orion_mqtt_tools;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,10 +7,6 @@ import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish;
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5PublishResult;
-import io.github.orionlibs.orion_mqtt_tools.ATest;
-import io.github.orionlibs.orion_mqtt_tools.MQTTClientDelaySimulator;
-import io.github.orionlibs.orion_mqtt_tools.MessageResiliencyConfiguration;
-import io.github.orionlibs.orion_mqtt_tools.Utils;
 import io.github.orionlibs.orion_mqtt_tools.broker.client.ConnectorFactory;
 import io.github.orionlibs.orion_mqtt_tools.broker.client.MQTTAsynchronousSubscriberClient;
 import io.github.orionlibs.orion_mqtt_tools.broker.server.MQTTBrokerServer;
