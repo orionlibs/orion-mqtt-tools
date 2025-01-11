@@ -1,4 +1,4 @@
-package io.github.orionlibs.orion_mqtt_tools.broker.server;
+package io.github.orionlibs.orion_mqtt_tools.tools.broker.server;
 
 import com.hivemq.embedded.EmbeddedExtension;
 import com.hivemq.embedded.EmbeddedHiveMQ;

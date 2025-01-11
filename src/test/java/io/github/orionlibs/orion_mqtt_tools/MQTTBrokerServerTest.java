@@ -1,12 +1,9 @@
-package io.github.orionlibs.orion_mqtt_tools.broker.client;
+package io.github.orionlibs.orion_mqtt_tools;
 
 import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
-import io.github.orionlibs.orion_mqtt_tools.ATest;
-import io.github.orionlibs.orion_mqtt_tools.Utils;
-import io.github.orionlibs.orion_mqtt_tools.broker.server.MQTTBrokerServer;
-import java.net.URISyntaxException;
-import java.util.concurrent.ExecutionException;
+import io.github.orionlibs.orion_mqtt_tools.tools.broker.client.ConnectorFactory;
+import io.github.orionlibs.orion_mqtt_tools.tools.broker.server.MQTTBrokerServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

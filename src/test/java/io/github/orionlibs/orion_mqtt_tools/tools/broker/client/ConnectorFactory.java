@@ -1,4 +1,4 @@
-package io.github.orionlibs.orion_mqtt_tools.broker.client;
+package io.github.orionlibs.orion_mqtt_tools.tools.broker.client;
 
 import com.hivemq.client.mqtt.datatypes.MqttQos;
 

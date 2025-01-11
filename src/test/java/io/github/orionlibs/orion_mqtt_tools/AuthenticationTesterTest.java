@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.github.orionlibs.orion_mqtt_tools.broker.client.HiveMQClientAdapter;
-import io.github.orionlibs.orion_mqtt_tools.broker.server.MQTTAuthenticatorProvider;
-import io.github.orionlibs.orion_mqtt_tools.broker.server.MQTTBrokerServer;
+import io.github.orionlibs.orion_mqtt_tools.tools.broker.client.HiveMQClientAdapter;
+import io.github.orionlibs.orion_mqtt_tools.tools.broker.server.MQTTAuthenticatorProvider;
+import io.github.orionlibs.orion_mqtt_tools.tools.broker.server.MQTTBrokerServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
