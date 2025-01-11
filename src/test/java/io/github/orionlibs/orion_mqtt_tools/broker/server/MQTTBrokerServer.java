@@ -53,6 +53,10 @@ public class MQTTBrokerServer
                                                     {
                                                         Services.securityRegistry().setAuthenticatorProvider(new MQTTAuthenticatorProvider());
                                                     }
+                                                    /*if(useAuthorizer)
+                                                    {
+                                                        //Services.securityRegistry().setAuthorizerProvider();
+                                                    }*/
                                                 }
 
 

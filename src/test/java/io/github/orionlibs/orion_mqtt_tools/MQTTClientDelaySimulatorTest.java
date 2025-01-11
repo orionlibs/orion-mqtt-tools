@@ -34,7 +34,7 @@ public class MQTTClientDelaySimulatorTest extends ATest
 
 
     @BeforeEach
-    void setUp() throws ExecutionException, InterruptedException, URISyntaxException
+    void setUp() throws Exception
     {
         brokerServer = new MQTTBrokerServer();
         brokerServer.startBroker(false);

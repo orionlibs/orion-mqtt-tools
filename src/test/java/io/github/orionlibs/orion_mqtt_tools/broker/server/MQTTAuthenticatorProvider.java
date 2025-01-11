@@ -9,9 +9,31 @@ import com.hivemq.extension.sdk.api.packets.connect.ConnackReasonCode;
 import com.hivemq.extension.sdk.api.services.auth.provider.AuthenticatorProvider;
 import java.nio.ByteBuffer;
 import java.util.Optional;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 public class MQTTAuthenticatorProvider implements AuthenticatorProvider
 {
+    private final static Logger log;
+    private static int counter;
+
+    static
+    {
+        log = Logger.getLogger(MQTTAuthenticatorProvider.class.getName());
+    }
+
+    public static void addLogHandler(Handler handler)
+    {
+        log.addHandler(handler);
+    }
+
+
+    public static void removeLogHandler(Handler handler)
+    {
+        log.removeHandler(handler);
+    }
+
+
     @Override
     public Authenticator getAuthenticator(AuthenticatorProviderInput authenticatorProviderInput)
     {
@@ -24,8 +46,9 @@ public class MQTTAuthenticatorProvider implements AuthenticatorProvider
                 Optional<ByteBuffer> password = input.getConnectPacket().getPassword();
                 if(!username.isPresent() || !password.isPresent())
                 {
+                    log.severe("NOT_AUTHORIZED_" + counter);
+                    counter++;
                     output.failAuthentication(ConnackReasonCode.NOT_AUTHORIZED);
-                    return;
                 }
                 ByteBuffer buffer = password.get();
                 byte[] bytes = new byte[buffer.remaining()];
@@ -37,6 +60,8 @@ public class MQTTAuthenticatorProvider implements AuthenticatorProvider
                 }
                 else
                 {
+                    log.severe("NOT_AUTHORIZED_" + counter);
+                    counter++;
                     output.failAuthentication(ConnackReasonCode.NOT_AUTHORIZED);
                 }
             }

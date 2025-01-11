@@ -5,7 +5,6 @@ import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client;
 import com.hivemq.client.mqtt.mqtt5.message.auth.Mqtt5SimpleAuth;
-import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
 import io.github.orionlibs.orion_mqtt_tools.MQTTClientAdapter;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
@@ -16,7 +15,7 @@ public class HiveMQClientAdapter implements MQTTClientAdapter
 
 
     @Override
-    public Mqtt5ConnAck connect(String brokerUrl, int port, String clientId, String username, String password) throws ExecutionException, InterruptedException
+    public void connect(String brokerUrl, int port, String clientId, String username, String password) throws ExecutionException, InterruptedException
     {
         this.client = Mqtt5Client.builder()
                         .identifier(clientId)
@@ -24,7 +23,7 @@ public class HiveMQClientAdapter implements MQTTClientAdapter
                         .serverHost(brokerUrl)
                         .serverPort(port)
                         .buildAsync();
-        return client.connect().get();
+        client.connect();
     }
 
 
