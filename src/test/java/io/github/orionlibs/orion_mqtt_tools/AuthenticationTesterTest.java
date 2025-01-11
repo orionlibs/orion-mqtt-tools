@@ -1,7 +1,6 @@
 package io.github.orionlibs.orion_mqtt_tools;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.orionlibs.orion_mqtt_tools.tools.broker.client.HiveMQClientAdapter;
@@ -46,14 +45,8 @@ public class AuthenticationTesterTest extends ATest
     @Test
     void testClientAuthentication() throws Exception
     {
-        try
-        {
-            authenticationTester.testCredentialsWithDelay("0.0.0.0", 1883, clientID, "admin", "password", 2);
-        }
-        catch(Exception e)
-        {
-            assertFalse(false);
-        }
+        authenticationTester.testCredentialsWithDelay("0.0.0.0", 1883, clientID, "admin", "password", 2);
+        assertEquals(0, listLogHandler.getLogRecords().size());
         authenticationTester.testCredentialsWithDelay("0.0.0.0", 1883, clientID, "admin", "wrongpassword", 2);
         assertEquals(1, listLogHandler.getLogRecords().size());
         assertTrue(listLogHandler.getLogRecords()

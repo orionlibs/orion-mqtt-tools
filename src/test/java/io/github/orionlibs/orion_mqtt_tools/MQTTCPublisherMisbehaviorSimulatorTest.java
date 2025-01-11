@@ -19,7 +19,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
 //@Execution(ExecutionMode.CONCURRENT)
-public class MQTTClientDelaySimulatorTest extends ATest
+public class MQTTCPublisherMisbehaviorSimulatorTest extends ATest
 {
     private MQTTBrokerServer brokerServer;
     private Mqtt5AsyncClient testPublisherClient;

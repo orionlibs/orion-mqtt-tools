@@ -56,12 +56,14 @@ public class MQTTAuthorizationProvider implements AuthorizerProvider, Subscripti
         }
         if(publishPacket.getTopic().startsWith("forbidden"))
         {
+            log.severe("forbidden");
             publishAuthorizerOutput.failAuthorization();
             return;
         }
         UserProperties userProperties = publishPacket.getUserProperties();
         if(userProperties.getFirst("notallowed").isPresent())
         {
+            log.severe("notallowed");
             publishAuthorizerOutput.disconnectClient(DisconnectReasonCode.ADMINISTRATIVE_ACTION, "User property not allowed");
             return;
         }
