@@ -11,11 +11,11 @@ public class AuthorizationTester
     }
 
 
-    public boolean testPublishAuthorization(String brokerUrl, int port, String username, String password, String topic, byte[] payload)
+    public boolean testPublishAuthorization(String brokerUrl, int port, String clientId, String username, String password, String topic, byte[] payload)
     {
         try
         {
-            client.connect(brokerUrl, port, username, password);
+            client.connect(brokerUrl, port, clientId, username, password);
             client.publish(topic, payload);
             client.disconnect();
             return true;
@@ -27,11 +27,11 @@ public class AuthorizationTester
     }
 
 
-    public boolean testSubscribeAuthorization(String brokerUrl, int port, String username, String password, String topic)
+    public boolean testSubscribeAuthorization(String brokerUrl, int port, String clientId, String username, String password, String topic)
     {
         try
         {
-            client.connect(brokerUrl, port, username, password);
+            client.connect(brokerUrl, port, clientId, username, password);
             client.subscribe(topic, (t, p) -> {
             });
             client.disconnect();

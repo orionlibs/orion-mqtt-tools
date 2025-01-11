@@ -5,6 +5,7 @@ import com.hivemq.extension.sdk.api.auth.SimpleAuthenticator;
 import com.hivemq.extension.sdk.api.auth.parameter.AuthenticatorProviderInput;
 import com.hivemq.extension.sdk.api.auth.parameter.SimpleAuthInput;
 import com.hivemq.extension.sdk.api.auth.parameter.SimpleAuthOutput;
+import com.hivemq.extension.sdk.api.packets.connect.ConnackReasonCode;
 import com.hivemq.extension.sdk.api.services.auth.provider.AuthenticatorProvider;
 import java.nio.ByteBuffer;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class MQTTAuthenticatorProvider implements AuthenticatorProvider
                 Optional<ByteBuffer> password = input.getConnectPacket().getPassword();
                 if(!username.isPresent() || !password.isPresent())
                 {
-                    output.failAuthentication();
+                    output.failAuthentication(ConnackReasonCode.NOT_AUTHORIZED);
                     return;
                 }
                 ByteBuffer buffer = password.get();
@@ -36,7 +37,7 @@ public class MQTTAuthenticatorProvider implements AuthenticatorProvider
                 }
                 else
                 {
-                    output.failAuthentication();
+                    output.failAuthentication(ConnackReasonCode.NOT_AUTHORIZED);
                 }
             }
         };
