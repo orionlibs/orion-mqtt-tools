@@ -1,8 +1,6 @@
-package io.github.orionlibs.orion_mqtt_tools.broker.client;
+package io.github.orionlibs.orion_mqtt_tools;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-
-import io.github.orionlibs.orion_mqtt_tools.MQTTClientAdapter;
 
 public class MQTTCMessageAdapter implements MQTTClientAdapter.MqttMessageHandler
 {

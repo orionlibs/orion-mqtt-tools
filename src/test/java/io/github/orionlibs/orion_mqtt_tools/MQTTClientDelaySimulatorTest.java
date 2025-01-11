@@ -37,7 +37,7 @@ public class MQTTClientDelaySimulatorTest extends ATest
     void setUp() throws Exception
     {
         brokerServer = new MQTTBrokerServer();
-        brokerServer.startBroker(false);
+        brokerServer.startBroker(false, false);
         Utils.nonblockingDelay(3);
         resiliencyConfig = new MessageResiliencyConfiguration(
                         1.0d,   //100% probability for delay

@@ -30,7 +30,7 @@ public class MQTTBrokerServerTest extends ATest
     void setUp() throws Exception
     {
         brokerServer = new MQTTBrokerServer();
-        brokerServer.startBroker(false);
+        brokerServer.startBroker(false, false);
         Utils.nonblockingDelay(3);
     }
 
