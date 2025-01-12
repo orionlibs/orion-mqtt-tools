@@ -46,6 +46,13 @@ public class HiveMQClientAdapter implements MQTTClientAdapter
 
 
     @Override
+    public void unsubscribe(String topic)
+    {
+        client.unsubscribeWith().topicFilter(topic).send();
+    }
+
+
+    @Override
     public void disconnect()
     {
         if(client != null && client.getConfig().getState().isConnectedOrReconnect())

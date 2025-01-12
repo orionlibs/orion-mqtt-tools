@@ -11,6 +11,9 @@ public interface MQTTClientAdapter
     void subscribe(String topic, MqttMessageHandler handler) throws Exception;
 
 
+    void unsubscribe(String topic) throws Exception;
+
+
     void disconnect() throws Exception;
 
 

@@ -63,5 +63,6 @@ public class AuthorizationTesterTest extends ATest
                         .anyMatch(record -> record.getMessage().contains("forbidden")));
         authorizationTester.testPublishAuthorizationWithDelay("admin/topic", "somePayload1".getBytes(), 2);
         assertEquals(2, listLogHandler.getLogRecords().size());
+        authorizationTester.testUnsubscribeAuthorizationWithDelay("admin/topic", 2);
     }
 }

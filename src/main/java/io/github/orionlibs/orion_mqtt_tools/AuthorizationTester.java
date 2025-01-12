@@ -35,4 +35,17 @@ public class AuthorizationTester
         testSubscribeAuthorization(topic, messageAdapter);
         Utils.nonblockingDelay(delayInSeconds);
     }
+
+
+    public void testUnsubscribeAuthorization(String topic) throws Exception
+    {
+        client.unsubscribe(topic);
+    }
+
+
+    public void testUnsubscribeAuthorizationWithDelay(String topic, int delayInSeconds) throws Exception
+    {
+        testUnsubscribeAuthorization(topic);
+        Utils.nonblockingDelay(delayInSeconds);
+    }
 }
