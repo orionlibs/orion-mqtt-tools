@@ -49,6 +49,7 @@ public class MQTTBrokerServer
                                                     };
                                                     Services.initializerRegistry().setClientInitializer(clientInitializer);
                                                     Services.retainedMessageStore().clear();
+                                                    Services.interceptorRegistry().setConnectInboundInterceptorProvider(new MQTTConnectInterceptorProvider());
                                                     if(useAuthenticator)
                                                     {
                                                         Services.securityRegistry().setAuthenticatorProvider(new MQTTAuthenticatorProvider());
