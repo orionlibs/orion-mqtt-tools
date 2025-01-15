@@ -146,6 +146,13 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.github.orionlibs</groupId>
+            <artifactId>orion-enumeration</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>com.hivemq</groupId>
             <artifactId>hivemq-community-edition-embedded</artifactId>
             <version>2024.9</version>

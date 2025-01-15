@@ -12,6 +12,8 @@ import com.hivemq.extension.sdk.api.parameter.ExtensionStopInput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStopOutput;
 import com.hivemq.extension.sdk.api.services.Services;
 import com.hivemq.extension.sdk.api.services.intializer.ClientInitializer;
+import io.github.orionlibs.orion_mqtt_tools.MQTTBrokerConfiguration;
+import io.github.orionlibs.orion_mqtt_tools.config.ConfigurationService;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutionException;
@@ -20,6 +22,18 @@ public class MQTTBrokerServer
 {
     private EmbeddedHiveMQ embeddedHiveMQ;
     private boolean isRunning;
+    private MQTTBrokerConfiguration brokerConfiguration;
+    private MQTTBrokerServerMetrics brokerServerMetrics;
+
+
+    public MQTTBrokerServer()
+    {
+        this.brokerConfiguration = MQTTBrokerConfiguration.builder()
+                        .maximumNumberOfAllowedPublishersConnections(ConfigurationService.getIntegerProp("maximum.number.of.allowed.publishers.connections"))
+                        .maximumNumberOfAllowedSubscribersConnections(ConfigurationService.getIntegerProp("maximum.number.of.allowed.subscribers.connections"))
+                        .build();
+        this.brokerServerMetrics = new MQTTBrokerServerMetrics();
+    }
 
 
     public void startBroker(boolean useAuthenticator, boolean useAuthorizer) throws ExecutionException, InterruptedException, URISyntaxException
@@ -49,7 +63,7 @@ public class MQTTBrokerServer
                                                     };
                                                     Services.initializerRegistry().setClientInitializer(clientInitializer);
                                                     Services.retainedMessageStore().clear();
-                                                    Services.interceptorRegistry().setConnectInboundInterceptorProvider(new MQTTConnectInterceptorProvider());
+                                                    Services.interceptorRegistry().setConnectInboundInterceptorProvider(new MQTTConnectInterceptorProvider(brokerConfiguration, brokerServerMetrics));
                                                     if(useAuthenticator)
                                                     {
                                                         Services.securityRegistry().setAuthenticatorProvider(new MQTTAuthenticatorProvider());
