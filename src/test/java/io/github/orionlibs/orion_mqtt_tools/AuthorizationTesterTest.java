@@ -21,6 +21,7 @@ public class AuthorizationTesterTest extends ATest
     private String clientID = "testClientId";
     private AuthorizationTester authorizationTester;
     private HiveMQClientAdapter clientAdapter;
+    private MQTTBrokerServerMetrics brokerServerMetrics;
 
 
     @BeforeEach
@@ -30,8 +31,9 @@ public class AuthorizationTesterTest extends ATest
         MQTTAuthorizationProvider.addLogHandler(listLogHandler);
         brokerServer = new MQTTBrokerServer();
         brokerServer.startBroker(true, true);
+        brokerServerMetrics = brokerServer.getBrokerServerMetrics();
         Utils.nonblockingDelay(3);
-        clientAdapter = new HiveMQClientAdapter("0.0.0.0", 1883, clientID, "admin", "password");
+        clientAdapter = new HiveMQClientAdapter("0.0.0.0", 1883, clientID, "admin", "password", brokerServerMetrics);
         authorizationTester = new AuthorizationTester(clientAdapter);
     }
 

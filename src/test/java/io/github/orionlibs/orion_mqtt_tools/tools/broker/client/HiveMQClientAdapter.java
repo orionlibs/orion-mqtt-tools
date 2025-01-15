@@ -3,6 +3,7 @@ package io.github.orionlibs.orion_mqtt_tools.tools.broker.client;
 import com.hivemq.client.mqtt.MqttGlobalPublishFilter;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
+import io.github.orionlibs.orion_mqtt_tools.MQTTBrokerServerMetrics;
 import io.github.orionlibs.orion_mqtt_tools.MQTTClientAdapter;
 
 public class HiveMQClientAdapter implements MQTTClientAdapter
@@ -15,16 +16,16 @@ public class HiveMQClientAdapter implements MQTTClientAdapter
     }
 
 
-    public HiveMQClientAdapter(String brokerUrl, int port, String clientId, String username, String password)
+    public HiveMQClientAdapter(String brokerUrl, int port, String clientId, String username, String password, MQTTBrokerServerMetrics brokerServerMetrics)
     {
-        connect(brokerUrl, port, clientId, username, password);
+        connect(brokerUrl, port, clientId, username, password, brokerServerMetrics);
     }
 
 
     @Override
-    public void connect(String brokerUrl, int port, String clientId, String username, String password)
+    public void connect(String brokerUrl, int port, String clientId, String username, String password, MQTTBrokerServerMetrics brokerServerMetrics)
     {
-        this.client = new ConnectorFactory().newAsynchronousMQTTConnectorForPublisherWithCredentials(brokerUrl, port, clientId, username, password).getClient();
+        this.client = new ConnectorFactory().newAsynchronousMQTTConnectorForPublisherWithCredentials(brokerUrl, port, clientId, username, password, brokerServerMetrics).getClient();
     }
 
 

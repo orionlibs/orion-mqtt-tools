@@ -18,9 +18,8 @@ public class MQTTBrokerServerTest extends ATest
     private Mqtt5AsyncClient testPublisherClient;
     private Mqtt5AsyncClient testSubscriberClient;
     private Mqtt5AsyncClient testUnsubscriberClient;
-    //private Mqtt5RxClient testClient;
-    //private Mqtt5BlockingClient testClient;
     private String clientID = "testClientId";
+    private MQTTBrokerServerMetrics brokerServerMetrics;
 
 
     @BeforeEach
@@ -28,6 +27,7 @@ public class MQTTBrokerServerTest extends ATest
     {
         brokerServer = new MQTTBrokerServer();
         brokerServer.startBroker(false, false);
+        brokerServerMetrics = brokerServer.getBrokerServerMetrics();
         Utils.nonblockingDelay(3);
     }
 
@@ -84,12 +84,12 @@ public class MQTTBrokerServerTest extends ATest
 
     private void startSubscriberClient(String topic, MqttQos qualityOfServiceLevel, String clientId)
     {
-        this.testSubscriberClient = new ConnectorFactory().newAsynchronousMQTTConnectorForSubscriber("0.0.0.0", 1883, topic, qualityOfServiceLevel, clientId).getClient();
+        this.testSubscriberClient = new ConnectorFactory().newAsynchronousMQTTConnectorForSubscriber("0.0.0.0", 1883, topic, qualityOfServiceLevel, clientId, brokerServerMetrics).getClient();
     }
 
 
     private void startUnsubscriberClient(String topic, String clientId)
     {
-        this.testUnsubscriberClient = new ConnectorFactory().newAsynchronousMQTTConnectorForUnsubscriber("0.0.0.0", 1883, topic, clientId).getClient();
+        this.testUnsubscriberClient = new ConnectorFactory().newAsynchronousMQTTConnectorForUnsubscriber("0.0.0.0", 1883, topic, clientId, brokerServerMetrics).getClient();
     }
 }

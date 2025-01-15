@@ -28,7 +28,7 @@ public class MQTTCPublisherMisbehaviorSimulatorTest extends ATest
     private String clientID = "testClientId";
     private MessageResiliencySimulationConfiguration resiliencyConfig;
     private MQTTClientDelaySimulator simulator;
-    private int numberOfMessagesReceived;
+    private MQTTBrokerServerMetrics brokerServerMetrics;
 
 
     @BeforeEach
@@ -36,6 +36,7 @@ public class MQTTCPublisherMisbehaviorSimulatorTest extends ATest
     {
         brokerServer = new MQTTBrokerServer();
         brokerServer.startBroker(false, false);
+        brokerServerMetrics = brokerServer.getBrokerServerMetrics();
         Utils.nonblockingDelay(3);
         resiliencyConfig = new MessageResiliencySimulationConfiguration(
                         1.0d,   //100% probability for delay
@@ -139,13 +140,13 @@ public class MQTTCPublisherMisbehaviorSimulatorTest extends ATest
 
     private void startPublisherClient(String clientId)
     {
-        this.testPublisherClient = new ConnectorFactory().newAsynchronousMQTTConnectorForPublisher("0.0.0.0", 1883, clientId).getClient();
+        this.testPublisherClient = new ConnectorFactory().newAsynchronousMQTTConnectorForPublisher("0.0.0.0", 1883, clientId, brokerServerMetrics).getClient();
     }
 
 
     private void startSubscriberClient(String topic, MqttQos qualityOfServiceLevel, String clientId)
     {
-        testSubscriberClientWrapper = new ConnectorFactory().newAsynchronousMQTTConnectorForSubscriber("0.0.0.0", 1883, topic, qualityOfServiceLevel, clientId);
+        testSubscriberClientWrapper = new ConnectorFactory().newAsynchronousMQTTConnectorForSubscriber("0.0.0.0", 1883, topic, qualityOfServiceLevel, clientId, brokerServerMetrics);
         this.testSubscriberClient = testSubscriberClientWrapper.getClient();
     }
 }

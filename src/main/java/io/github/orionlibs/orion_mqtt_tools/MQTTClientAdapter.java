@@ -2,7 +2,7 @@ package io.github.orionlibs.orion_mqtt_tools;
 
 public interface MQTTClientAdapter
 {
-    void connect(String brokerUrl, int port, String clientId, String username, String password) throws Exception;
+    void connect(String brokerUrl, int port, String clientId, String username, String password, MQTTBrokerServerMetrics brokerServerMetrics) throws Exception;
 
 
     void publish(String topic, byte[] payload) throws Exception;

@@ -13,6 +13,7 @@ import com.hivemq.extension.sdk.api.services.Services;
 import com.hivemq.extension.sdk.api.services.general.IterationCallback;
 import com.hivemq.extension.sdk.api.services.general.IterationContext;
 import com.hivemq.extension.sdk.api.services.subscription.SubscriberWithFilterResult;
+import io.github.orionlibs.orion_mqtt_tools.MQTTBrokerServerMetrics;
 import io.github.orionlibs.orion_mqtt_tools.MQTTClientType;
 import io.github.orionlibs.orion_mqtt_tools.MQTTUserProperties;
 import java.util.ArrayList;
@@ -22,10 +23,12 @@ import java.util.concurrent.CompletableFuture;
 public class MQTTAsynchronousPublisherClient
 {
     private Mqtt5AsyncClient client;
+    private MQTTBrokerServerMetrics brokerServerMetrics;
 
 
-    public MQTTAsynchronousPublisherClient(String brokerUrl, int port, String clientId)
+    public MQTTAsynchronousPublisherClient(String brokerUrl, int port, String clientId, MQTTBrokerServerMetrics brokerServerMetrics)
     {
+        this.brokerServerMetrics = brokerServerMetrics;
         this.client = Mqtt5Client.builder()
                         .identifier(clientId)
                         .serverHost(brokerUrl)
@@ -37,6 +40,10 @@ public class MQTTAsynchronousPublisherClient
                         .applyUserProperties()
                         .build();
         client.connect(connectMessage)
+                        .thenRun(() -> {
+                            System.out.println("Successfully connected publisher!");
+                            brokerServerMetrics.incrementNumberOfPublishersConnections();
+                        })
                         .exceptionally(throwable -> {
                             System.out.println("Something went wrong publisher: " + throwable.getMessage());
                             return null;
@@ -59,6 +66,7 @@ public class MQTTAsynchronousPublisherClient
         client.connect(connectMessage)
                         .thenCompose(connAck -> {
                             System.out.println("Successfully connected publisher!");
+                            brokerServerMetrics.incrementNumberOfPublishersConnections();
                             List<String> subscriberIDsForTopic = new ArrayList<>();
                             IterationCallback<SubscriberWithFilterResult> subscribersForTopic = new IterationCallback()
                             {

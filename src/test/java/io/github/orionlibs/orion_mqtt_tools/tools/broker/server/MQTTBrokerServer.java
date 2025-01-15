@@ -120,4 +120,16 @@ public class MQTTBrokerServer
     {
         return isRunning;
     }
+
+
+    public MQTTBrokerConfiguration getBrokerConfiguration()
+    {
+        return brokerConfiguration;
+    }
+
+
+    public MQTTBrokerServerMetrics getBrokerServerMetrics()
+    {
+        return brokerServerMetrics;
+    }
 }
