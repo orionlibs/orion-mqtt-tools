@@ -1,2 +1,3 @@
 maximum.number.of.allowed.publishers.connections=2
 maximum.number.of.allowed.subscribers.connections=2
+maximum.number.of.allowed.connections=4

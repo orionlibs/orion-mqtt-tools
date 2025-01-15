@@ -5,6 +5,7 @@ import com.hivemq.extension.sdk.api.interceptor.connect.ConnectInboundIntercepto
 import com.hivemq.extension.sdk.api.interceptor.connect.parameter.ConnectInboundInput;
 import com.hivemq.extension.sdk.api.interceptor.connect.parameter.ConnectInboundOutput;
 import io.github.orionlibs.orion_mqtt_tools.ConnectionPolicies;
+import io.github.orionlibs.orion_mqtt_tools.MQTTBrokerServerMetrics;
 import io.github.orionlibs.orion_mqtt_tools.MQTTClientType;
 import io.github.orionlibs.orion_mqtt_tools.MQTTUserProperties;
 
@@ -24,28 +25,39 @@ public class MQTTConnectionInterceptor implements ConnectInboundInterceptor
     @Override
     public void onConnect(@NotNull ConnectInboundInput connectInboundInput, @NotNull ConnectInboundOutput connectInboundOutput)
     {
-        System.out.println("---new connection: " + connectInboundInput.getConnectPacket().getClientId());
-        System.out.println("---new connection: " + connectInboundInput.getConnectPacket().getUserProperties().getFirst(MQTTUserProperties.CLIENT_TYPE).get());
+        System.out.println("---new connection request: " + connectInboundInput.getConnectPacket().getClientId());
+        System.out.println("---new connection request: " + connectInboundInput.getConnectPacket().getUserProperties().getFirst(MQTTUserProperties.CLIENT_TYPE).get());
         if(MQTTClientType.PUBLISHER.get().equals(connectInboundInput.getConnectPacket().getUserProperties().getFirst(MQTTUserProperties.CLIENT_TYPE).get()))
         {
-            if(connectionPolicies.allowNewPublisherConnection(brokerServerMetrics.getCurrentPublishersConnections().get()))
+            if(connectionPolicies.allowNewPublisherConnection(brokerServerMetrics.getCurrentNumberOfPublishersConnections().get()))
             {
                 brokerServerMetrics.incrementNumberOfPublishersConnections();
             }
             else
             {
-                throw new Exception("maximum number of publishers allowed exceeded");
+                //throw new Exception("exceeded the maximum number of publishers allowed");
             }
         }
         else if(MQTTClientType.SUBSCRIBER.get().equals(connectInboundInput.getConnectPacket().getUserProperties().getFirst(MQTTUserProperties.CLIENT_TYPE).get()))
         {
-            if(connectionPolicies.allowNewSubscriberConnection(brokerServerMetrics.getCurrentSubscribersConnections().get()))
+            if(connectionPolicies.allowNewSubscriberConnection(brokerServerMetrics.getCurrentNumberOfSubscribersConnections().get()))
             {
                 brokerServerMetrics.incrementNumberOfSubscribersConnections();
             }
             else
             {
-                throw new Exception("maximum number of subscribers allowed exceeded");
+                //throw new Exception("exceeded the maximum number of subscribers allowed");
+            }
+        }
+        else
+        {
+            if(connectionPolicies.allowNewConnection(brokerServerMetrics.getCurrentNumberOfAllConnections().get()))
+            {
+                brokerServerMetrics.incrementNumberOfAllConnections();
+            }
+            else
+            {
+                //throw new Exception("exceeded the maximum number of subscribers allowed");
             }
         }
     }

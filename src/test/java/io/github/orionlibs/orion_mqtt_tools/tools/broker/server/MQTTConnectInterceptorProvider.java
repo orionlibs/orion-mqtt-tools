@@ -5,6 +5,7 @@ import com.hivemq.extension.sdk.api.interceptor.connect.ConnectInboundIntercepto
 import com.hivemq.extension.sdk.api.interceptor.connect.parameter.ConnectInboundProviderInput;
 import io.github.orionlibs.orion_mqtt_tools.ConnectionPolicies;
 import io.github.orionlibs.orion_mqtt_tools.MQTTBrokerConfiguration;
+import io.github.orionlibs.orion_mqtt_tools.MQTTBrokerServerMetrics;
 
 public class MQTTConnectInterceptorProvider implements ConnectInboundInterceptorProvider
 {

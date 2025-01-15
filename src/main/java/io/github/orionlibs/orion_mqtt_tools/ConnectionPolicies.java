@@ -21,4 +21,8 @@ public class ConnectionPolicies
     {
         return currentNumberOfSubscribersConnections + 1 <= brokerConfiguration.getMaximumNumberOfAllowedSubscribersConnections();
     }
+    public boolean allowNewConnection(int currentNumberOfAllConnections)
+    {
+        return currentNumberOfAllConnections + 1 <= brokerConfiguration.getMaximumNumberOfAllowedConnections();
+    }
 }

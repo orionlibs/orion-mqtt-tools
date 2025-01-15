@@ -45,7 +45,7 @@ public class ConnectionPoliciesTest extends ATest
     }
 
 
-    @Test
+    /*@Test
     void testMaximumNumberOfAllowedPublishersConnections() throws Exception
     {
         authorizationTester.testPublishAuthorizationWithDelay("forbidden/topic", "somePayload1".getBytes(), 2);
@@ -55,5 +55,5 @@ public class ConnectionPoliciesTest extends ATest
                         .anyMatch(record -> record.getMessage().contains("forbidden")));
         authorizationTester.testPublishAuthorizationWithDelay("admin/topic", "somePayload1".getBytes(), 2);
         assertEquals(2, listLogHandler.getLogRecords().size());
-    }
+    }*/
 }

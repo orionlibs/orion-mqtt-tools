@@ -2,6 +2,9 @@ package io.github.orionlibs.orion_mqtt_tools.tools.broker.client;
 
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client;
+import com.hivemq.client.mqtt.mqtt5.message.connect.Mqtt5Connect;
+import io.github.orionlibs.orion_mqtt_tools.MQTTClientType;
+import io.github.orionlibs.orion_mqtt_tools.MQTTUserProperties;
 
 public class MQTTAsynchronousUnsubscriberClient
 {
@@ -15,7 +18,12 @@ public class MQTTAsynchronousUnsubscriberClient
                         .serverHost(brokerUrl)
                         .serverPort(port)
                         .buildAsync();
-        client.connect()
+        Mqtt5Connect connectMessage = Mqtt5Connect.builder()
+                        .userProperties()
+                        .add(MQTTUserProperties.CLIENT_TYPE, MQTTClientType.UNSUBSCRIBER.get())
+                        .applyUserProperties()
+                        .build();
+        client.connect(connectMessage)
                         .thenCompose(connAck -> {
                             System.out.println("Successfully connected unsubscriber!");
                             return client.unsubscribeWith().topicFilter(topic).send();

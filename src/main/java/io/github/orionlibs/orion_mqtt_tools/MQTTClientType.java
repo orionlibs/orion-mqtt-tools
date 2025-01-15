@@ -5,6 +5,7 @@ import io.github.orionlibs.orion_enumeration.OrionEnumeration;
 public enum MQTTClientType implements OrionEnumeration
 {
     PUBLISHER("PUBLISHER"),
+    UNSUBSCRIBER("UNSUBSCRIBER"),
     SUBSCRIBER("SUBSCRIBER");
     private String name;
 

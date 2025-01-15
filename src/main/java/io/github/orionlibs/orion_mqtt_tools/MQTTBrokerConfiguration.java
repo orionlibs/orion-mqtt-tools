@@ -9,4 +9,5 @@ public class MQTTBrokerConfiguration
 {
     private int maximumNumberOfAllowedPublishersConnections;
     private int maximumNumberOfAllowedSubscribersConnections;
+    private int maximumNumberOfAllowedConnections;
 }

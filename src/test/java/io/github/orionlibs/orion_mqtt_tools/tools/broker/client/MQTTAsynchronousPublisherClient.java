@@ -7,11 +7,14 @@ import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client;
 import com.hivemq.client.mqtt.mqtt5.datatypes.Mqtt5UserProperty;
+import com.hivemq.client.mqtt.mqtt5.message.connect.Mqtt5Connect;
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish;
 import com.hivemq.extension.sdk.api.services.Services;
 import com.hivemq.extension.sdk.api.services.general.IterationCallback;
 import com.hivemq.extension.sdk.api.services.general.IterationContext;
 import com.hivemq.extension.sdk.api.services.subscription.SubscriberWithFilterResult;
+import io.github.orionlibs.orion_mqtt_tools.MQTTClientType;
+import io.github.orionlibs.orion_mqtt_tools.MQTTUserProperties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -28,7 +31,12 @@ public class MQTTAsynchronousPublisherClient
                         .serverHost(brokerUrl)
                         .serverPort(port)
                         .buildAsync();
-        client.connect()
+        Mqtt5Connect connectMessage = Mqtt5Connect.builder()
+                        .userProperties()
+                        .add(MQTTUserProperties.CLIENT_TYPE, MQTTClientType.PUBLISHER.get())
+                        .applyUserProperties()
+                        .build();
+        client.connect(connectMessage)
                         .exceptionally(throwable -> {
                             System.out.println("Something went wrong publisher: " + throwable.getMessage());
                             return null;
@@ -43,7 +51,12 @@ public class MQTTAsynchronousPublisherClient
                         .serverHost(brokerUrl)
                         .serverPort(port)
                         .buildAsync();
-        client.connect()
+        Mqtt5Connect connectMessage = Mqtt5Connect.builder()
+                        .userProperties()
+                        .add(MQTTUserProperties.CLIENT_TYPE, MQTTClientType.PUBLISHER.get())
+                        .applyUserProperties()
+                        .build();
+        client.connect(connectMessage)
                         .thenCompose(connAck -> {
                             System.out.println("Successfully connected publisher!");
                             List<String> subscriberIDsForTopic = new ArrayList<>();

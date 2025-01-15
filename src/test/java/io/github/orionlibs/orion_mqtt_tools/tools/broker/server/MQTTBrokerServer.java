@@ -13,6 +13,7 @@ import com.hivemq.extension.sdk.api.parameter.ExtensionStopOutput;
 import com.hivemq.extension.sdk.api.services.Services;
 import com.hivemq.extension.sdk.api.services.intializer.ClientInitializer;
 import io.github.orionlibs.orion_mqtt_tools.MQTTBrokerConfiguration;
+import io.github.orionlibs.orion_mqtt_tools.MQTTBrokerServerMetrics;
 import io.github.orionlibs.orion_mqtt_tools.config.ConfigurationService;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
@@ -31,6 +32,7 @@ public class MQTTBrokerServer
         this.brokerConfiguration = MQTTBrokerConfiguration.builder()
                         .maximumNumberOfAllowedPublishersConnections(ConfigurationService.getIntegerProp("maximum.number.of.allowed.publishers.connections"))
                         .maximumNumberOfAllowedSubscribersConnections(ConfigurationService.getIntegerProp("maximum.number.of.allowed.subscribers.connections"))
+                        .maximumNumberOfAllowedConnections(ConfigurationService.getIntegerProp("maximum.number.of.allowed.connections"))
                         .build();
         this.brokerServerMetrics = new MQTTBrokerServerMetrics();
     }
