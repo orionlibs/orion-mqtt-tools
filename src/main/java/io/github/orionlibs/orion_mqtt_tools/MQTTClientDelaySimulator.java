@@ -14,10 +14,10 @@ import java.util.function.Supplier;
 public class MQTTClientDelaySimulator
 {
     private final Random random;
-    private final MessageResiliencyConfiguration resiliencyConfig;
+    private final MessageResiliencySimulationConfiguration resiliencyConfig;
 
 
-    public MQTTClientDelaySimulator(MessageResiliencyConfiguration resiliencyConfig)
+    public MQTTClientDelaySimulator(MessageResiliencySimulationConfiguration resiliencyConfig)
     {
         this.resiliencyConfig = resiliencyConfig;
         this.random = new Random();

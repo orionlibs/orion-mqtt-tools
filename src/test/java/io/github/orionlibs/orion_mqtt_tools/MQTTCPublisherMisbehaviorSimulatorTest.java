@@ -26,7 +26,7 @@ public class MQTTCPublisherMisbehaviorSimulatorTest extends ATest
     private Mqtt5AsyncClient testSubscriberClient;
     private MQTTAsynchronousSubscriberClient testSubscriberClientWrapper;
     private String clientID = "testClientId";
-    private MessageResiliencyConfiguration resiliencyConfig;
+    private MessageResiliencySimulationConfiguration resiliencyConfig;
     private MQTTClientDelaySimulator simulator;
     private int numberOfMessagesReceived;
 
@@ -37,7 +37,7 @@ public class MQTTCPublisherMisbehaviorSimulatorTest extends ATest
         brokerServer = new MQTTBrokerServer();
         brokerServer.startBroker(false, false);
         Utils.nonblockingDelay(3);
-        resiliencyConfig = new MessageResiliencyConfiguration(
+        resiliencyConfig = new MessageResiliencySimulationConfiguration(
                         1.0d,   //100% probability for delay
                         3000,  //max delay of 3s
                         1.0d,   //100% probability to drop message

@@ -1,6 +1,6 @@
 package io.github.orionlibs.orion_mqtt_tools;
 
-public class MessageResiliencyConfiguration
+public class MessageResiliencySimulationConfiguration
 {
     private final double delayProbability;
     private final long maxDelayMillis;
@@ -8,7 +8,7 @@ public class MessageResiliencyConfiguration
     private final double duplicationProbability;
 
 
-    public MessageResiliencyConfiguration(double delayProbability, long maxDelayMillis, double dropProbability, double duplicationProbability)
+    public MessageResiliencySimulationConfiguration(double delayProbability, long maxDelayMillis, double dropProbability, double duplicationProbability)
     {
         this.delayProbability = delayProbability;
         this.maxDelayMillis = maxDelayMillis;

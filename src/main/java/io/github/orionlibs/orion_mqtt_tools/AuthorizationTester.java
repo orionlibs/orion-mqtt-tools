@@ -24,13 +24,13 @@ public class AuthorizationTester
     }
 
 
-    public void testSubscribeAuthorization(String topic, MQTTCMessageAdapter messageAdapter) throws Exception
+    public void testSubscribeAuthorization(String topic, MQTTMessageAdapter messageAdapter) throws Exception
     {
         client.subscribe(topic, messageAdapter);
     }
 
 
-    public void testSubscribeAuthorizationWithDelay(String topic, MQTTCMessageAdapter messageAdapter, int delayInSeconds) throws Exception
+    public void testSubscribeAuthorizationWithDelay(String topic, MQTTMessageAdapter messageAdapter, int delayInSeconds) throws Exception
     {
         testSubscribeAuthorization(topic, messageAdapter);
         Utils.nonblockingDelay(delayInSeconds);

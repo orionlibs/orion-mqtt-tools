@@ -48,7 +48,7 @@ public class AuthorizationTesterTest extends ATest
     @Test
     void testClientAuthorization() throws Exception
     {
-        MQTTCMessageAdapter messageAdapter = new MQTTCMessageAdapter();
+        MQTTMessageAdapter messageAdapter = new MQTTMessageAdapter();
         authorizationTester.testSubscribeAuthorizationWithDelay("admin/topic", messageAdapter, 2);
         assertEquals(0, listLogHandler.getLogRecords().size());
         authorizationTester.testSubscribeAuthorizationWithDelay("$shared/topic", messageAdapter, 2);

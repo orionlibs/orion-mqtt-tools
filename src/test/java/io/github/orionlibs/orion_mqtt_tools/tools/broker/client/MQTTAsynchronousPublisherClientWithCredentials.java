@@ -14,7 +14,10 @@ public class MQTTAsynchronousPublisherClientWithCredentials
     {
         this.client = Mqtt5Client.builder()
                         .identifier(clientId)
-                        .simpleAuth(Mqtt5SimpleAuth.builder().username(username).password(password.getBytes(StandardCharsets.UTF_8)).build())
+                        .simpleAuth(Mqtt5SimpleAuth.builder()
+                                        .username(username)
+                                        .password(password.getBytes(StandardCharsets.UTF_8))
+                                        .build())
                         .serverHost(brokerUrl)
                         .serverPort(port)
                         .buildAsync();
